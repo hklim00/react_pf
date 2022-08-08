@@ -29,9 +29,50 @@ header {
 			gap: 40px;
 			align-items: center;
 			a {
+				position: relative;
 				padding: 15px 0;
 				font: 16px/1 'Merriweather Sans';
 				color: #999;
+				transition: 0.5s;
+				&::before {
+					content: '';
+					display: block;
+					width: 1px;
+					height: 1px;
+					border-radius: 50%;
+					background: #777;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translateX(-50%);
+					opacity: 0;
+					transition: 0.5s;
+				}
+				&::after {
+					content: '';
+					display: block;
+					width: 0;
+					height: 1px;
+					background: #555;
+					position: absolute;
+					bottom: 0;
+					left: 50%;
+					transition: 0.5s;
+				}
+				&:hover,
+				&.active {
+					color: #000;
+					&::before {
+						width: 10px;
+						height: 10px;
+						top: -30%;
+						opacity: 1;
+					}
+					&::after {
+						width: 100%;
+						left: 0;
+					}
+				}
 			}
 		}
 		.util {
