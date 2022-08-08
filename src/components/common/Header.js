@@ -6,6 +6,7 @@ import {
 	faYoutube,
 	faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
 	const active = { color: '#000' };
@@ -62,6 +63,7 @@ function Header() {
 					</li>
 				</ul>
 			</nav>
+			<FontAwesomeIcon icon={faBars} />
 		</header>
 	);
 }
