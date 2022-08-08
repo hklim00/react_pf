@@ -34,6 +34,7 @@ function App() {
 					<Header type={'sub'} />
 				</Route>
 			</Switch>
+
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
 			<Route path='/gallery' component={Gallery} />

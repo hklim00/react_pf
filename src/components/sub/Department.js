@@ -1,5 +1,11 @@
+import Layout from '../common/Layout';
+
 function Department() {
-	return <div>Department</div>;
+	return (
+		<Layout name={'Department'}>
+			<p>Department</p>
+		</Layout>
+	);
 }
 
 export default Department;
