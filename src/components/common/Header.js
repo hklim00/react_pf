@@ -8,13 +8,18 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-function Header() {
+function Header({ type }) {
 	const active = { color: '#000' };
+	let logoURL = '';
+	type === 'main'
+		? (logoURL = '/img/logo_w.png')
+		: (logoURL = '/img/logo_b.png');
+
 	return (
-		<header>
+		<header className={type}>
 			<h1>
 				<Link to='/'>
-					<img src={process.env.PUBLIC_URL + '/img/logo_b.png'} alt='logo' />
+					<img src={process.env.PUBLIC_URL + logoURL} alt='logo' />
 				</Link>
 				<span>Lorem ipsum dolor sit amet.</span>
 			</h1>
