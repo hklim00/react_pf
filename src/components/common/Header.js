@@ -8,14 +8,17 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 
 function Header() {
-	const active = { color: 'aqua' };
+	const active = { color: '#000' };
 	return (
 		<header>
 			<h1>
-				<Link to='/'>LOGO</Link>
+				<Link to='/'>
+					<img src={process.env.PUBLIC_URL + '/img/logo_b.png'} alt='logo' />
+				</Link>
+				<span>Lorem ipsum dolor sit amet.</span>
 			</h1>
 			<nav>
-				<ul className='gnb'>
+				<ul id='gnb'>
 					<li>
 						<NavLink to='/department' activeStyle={active}>
 							DEPARTMENT
