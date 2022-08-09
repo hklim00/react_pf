@@ -15,7 +15,10 @@ function Layout({ children, name }) {
 				<img src={`${process.env.PUBLIC_URL}/img/${name}.jpg`} alt={name} />
 				<h1>{name}</h1>
 			</figure>
-			<div className='inner'>{children}</div>
+			<div className='inner'>
+				<h1>{name}</h1>
+				{children}
+			</div>
 		</section>
 	);
 }
