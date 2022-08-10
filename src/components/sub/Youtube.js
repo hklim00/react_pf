@@ -22,6 +22,10 @@ function Youtube() {
 		});
 	}, []);
 
+	useEffect(() => {
+		console.log(line);
+	}, [Vids]);
+
 	return (
 		<>
 			<Layout name={'Youtube'}>
