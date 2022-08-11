@@ -57,10 +57,16 @@ function Location() {
 		marker.setMap(map_instance);
 		setLocation(map_instance);
 
-		window.addEventListener('resize', () => {
-			// 지도 중심을 이동 시킵니다
+		const handelResize = () => {
+			console.log('test');
 			map_instance.setCenter(info[Index].latLng);
-		});
+		};
+
+		window.addEventListener('resize', handelResize);
+
+		return () => {
+			window.removeEventListener('resize', handelResize);
+		};
 	}, [Index]);
 
 	useEffect(() => {
