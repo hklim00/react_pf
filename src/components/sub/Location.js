@@ -56,6 +56,11 @@ function Location() {
 		const map_instance = new kakao.maps.Map(container.current, option);
 		marker.setMap(map_instance);
 		setLocation(map_instance);
+
+		window.addEventListener('resize', () => {
+			// 지도 중심을 이동 시킵니다
+			map_instance.setCenter(info[Index].latLng);
+		});
 	}, [Index]);
 
 	useEffect(() => {
