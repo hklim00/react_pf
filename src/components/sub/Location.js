@@ -4,7 +4,6 @@ import { useRef, useEffect, useState } from 'react';
 
 function Location() {
 	const { kakao } = window; // window 객체 안에서 kakao 키값 가져오기
-	const container = useRef(null);
 
 	const info = [
 		{
@@ -14,21 +13,38 @@ function Location() {
 			imgSize: new kakao.maps.Size(232, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
+		{
+			title: '올림픽 공원',
+			latLng: new kakao.maps.LatLng(37.51881764760613, 127.11633054508519),
+			imgUrl: process.env.PUBLIC_URL + '/img/marker2.png',
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 90) },
+		},
+		{
+			title: '서울 시청',
+			latLng: new kakao.maps.LatLng(37.566918804166775, 126.97863525321908),
+			imgUrl: process.env.PUBLIC_URL + '/img/marker3.png',
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 90) },
+		},
 	];
 
+	const container = useRef(null);
+	const btns = useRef(null);
 	const [Location, setLocation] = useState(null);
 	const [Traffic, setTraffic] = useState(false);
-	const [Info, setInfo] = useState(info);
+	const [Info] = useState(info);
+	const [Index, setIndex] = useState(0);
 
 	const option = {
-		center: Info[0].latLng,
+		center: Info[Index].latLng,
 		level: 3,
 	};
 	const markerPosition = option.center;
 
-	const imgSrc = Info[0].imgUrl;
-	const imgSize = Info[0].imgSize;
-	const imgOption = Info[0].imgPos;
+	const imgSrc = Info[Index].imgUrl;
+	const imgSize = Info[Index].imgSize;
+	const imgOption = Info[Index].imgPos;
 
 	const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOption);
 
@@ -41,7 +57,7 @@ function Location() {
 		const map_instance = new kakao.maps.Map(container.current, option);
 		marker.setMap(map_instance);
 		setLocation(map_instance);
-	}, []);
+	}, [Index]);
 
 	useEffect(() => {
 		if (!Location) return;
@@ -56,6 +72,16 @@ function Location() {
 			<button onClick={() => setTraffic(!Traffic)}>
 				{Traffic ? 'Traffic Off' : 'Traffic On'}
 			</button>
+
+			<ul className='branch' ref={btns}>
+				{Info.map((info, idx) => {
+					return (
+						<li key={idx} onClick={() => setIndex(idx)}>
+							{info.title}
+						</li>
+					);
+				})}
+			</ul>
 		</Layout>
 	);
 }
