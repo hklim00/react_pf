@@ -53,12 +53,24 @@ function Location() {
 	});
 
 	useEffect(() => {
+		container.current.innerHTML = '';
+
 		const map_instance = new kakao.maps.Map(container.current, option);
 		marker.setMap(map_instance);
 		setLocation(map_instance);
 
+		// 컨트롤 추가
+		const mapTypeControl = new kakao.maps.MapTypeControl();
+		map_instance.addControl(
+			mapTypeControl,
+			kakao.maps.ControlPosition.TOPRIGHT
+		);
+
+		const zoomControl = new kakao.maps.ZoomControl();
+		map_instance.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+		// 화면 리사이즈 마커 가운데 정렬
 		const handelResize = () => {
-			console.log('test');
 			map_instance.setCenter(info[Index].latLng);
 		};
 
