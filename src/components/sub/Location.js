@@ -57,6 +57,11 @@ function Location() {
 		const map_instance = new kakao.maps.Map(container.current, option);
 		marker.setMap(map_instance);
 		setLocation(map_instance);
+
+		for (const btn of btns.current.children) {
+			btn.classList.remove('on');
+		}
+		btns.current.children[Index].classList.add('on');
 	}, [Index]);
 
 	useEffect(() => {
