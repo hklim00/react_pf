@@ -30,7 +30,6 @@ function Location() {
 	];
 
 	const container = useRef(null);
-	const btns = useRef(null);
 	const [Location, setLocation] = useState(null);
 	const [Traffic, setTraffic] = useState(false);
 	const [Info] = useState(info);
@@ -57,11 +56,6 @@ function Location() {
 		const map_instance = new kakao.maps.Map(container.current, option);
 		marker.setMap(map_instance);
 		setLocation(map_instance);
-
-		for (const btn of btns.current.children) {
-			btn.classList.remove('on');
-		}
-		btns.current.children[Index].classList.add('on');
 	}, [Index]);
 
 	useEffect(() => {
@@ -78,10 +72,12 @@ function Location() {
 				{Traffic ? 'Traffic Off' : 'Traffic On'}
 			</button>
 
-			<ul className='branch' ref={btns}>
+			<ul className='branch'>
 				{Info.map((info, idx) => {
+					let on = '';
+					Index === idx && (on = 'on');
 					return (
-						<li key={idx} onClick={() => setIndex(idx)}>
+						<li key={idx} onClick={() => setIndex(idx)} className={on}>
 							{info.title}
 						</li>
 					);
