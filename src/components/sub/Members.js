@@ -10,8 +10,8 @@ function Members() {
 		pewd2: '',
 		email: '',
 		gender: null,
-		interests: false,
-		edu: false,
+		interests: null,
+		edu: '',
 		comments: '',
 	};
 
@@ -50,9 +50,29 @@ function Members() {
 				'비밀번호는 6글자 이상, 영문, 숫자, 특수문자를 모두 포함하세요';
 		}
 
-		// password2
-		if (value.pwd1 !== value.pwd2) {
+		// password2, 같지 않거나 값이 없거나
+		if (value.pwd1 !== value.pwd2 || !value.pwd2) {
 			errs.pwd2 = '두개의 비밀번호를 동일하게 입력하세요';
+		}
+
+		// gender
+		if (!value.gender) {
+			errs.gender = '성별을 선택하세요.';
+		}
+
+		// check
+		if (!value.interests) {
+			errs.interests = '관심사를 하나 이상 선택하세요';
+		}
+
+		// select
+		if (value.edu === '') {
+			errs.edu = '최종학력을 선택하세요';
+		}
+
+		// comments
+		if (value.comments.length < 10) {
+			errs.comments = '남기는 말을 10글자 이상 입력하세요';
 		}
 
 		return errs;
@@ -77,6 +97,32 @@ function Members() {
 
 		// es6 객체에서 키값을 변수로 치환하고자 할때 키에 들어갈 변수를 대괄호로 감싸줌
 		setVal({ ...Val, [name]: value }); // { ...Val, userid: e.target.value }
+	};
+
+	// radio 인풋 전용 함수
+	const handleRadio = (e) => {
+		const { name } = e.target;
+		const isCheck = e.target.checked;
+		setVal({ ...Val, [name]: isCheck });
+	};
+
+	// check 인풋 전용 함수
+	const handleCheck = (e) => {
+		let isCheck = false;
+		const { name } = e.target;
+		const inputs = e.target.parentElement.querySelectorAll('input');
+
+		inputs.forEach((el) => {
+			if (el.checked) isCheck = true;
+		});
+
+		setVal({ ...Val, [name]: isCheck });
+	};
+
+	// select
+	const handleSelect = (e) => {
+		const { name, value } = e.target;
+		setVal({ ...Val, [name]: value });
 	};
 
 	return (
@@ -161,11 +207,21 @@ function Members() {
 								<th scope='row'>GENDER</th>
 								<td>
 									<label htmlFor='male'>MALE</label>
-									<input type='radio' id='male' name='gender' />
+									<input
+										type='radio'
+										id='male'
+										name='gender'
+										onChange={handleRadio}
+									/>
 
 									<label htmlFor='female'>FEMALE</label>
-									<input type='radio' id='female' name='gender' />
-									<span className='err'></span>
+									<input
+										type='radio'
+										id='female'
+										name='gender'
+										onChange={handleRadio}
+									/>
+									<span className='err'>{Err.gender}</span>
 								</td>
 							</tr>
 
@@ -174,14 +230,29 @@ function Members() {
 								<th scope='row'>INTERESTS</th>
 								<td>
 									<label htmlFor='sports'>Sports</label>
-									<input type='checkbox' id='sports' name='interests' />
+									<input
+										type='checkbox'
+										id='sports'
+										name='interests'
+										onChange={handleCheck}
+									/>
 
 									<label htmlFor='music'>Music</label>
-									<input type='checkbox' id='music' name='interests' />
+									<input
+										type='checkbox'
+										id='music'
+										name='interests'
+										onChange={handleCheck}
+									/>
 
 									<label htmlFor='game'>Game</label>
-									<input type='checkbox' id='game' name='interests' />
-									<span className='err'></span>
+									<input
+										type='checkbox'
+										id='game'
+										name='interests'
+										onChange={handleCheck}
+									/>
+									<span className='err'>{Err.interests}</span>
 								</td>
 							</tr>
 
@@ -191,14 +262,14 @@ function Members() {
 									<label htmlFor='edu'>EDUCATION</label>
 								</th>
 								<td>
-									<select name='edu' id='edu'>
+									<select name='edu' id='edu' onChange={handleSelect}>
 										<option value=''>최종 학력을 선택하세요</option>
 										<option value='elementary-school'>초등학교 졸업</option>
 										<option value='middle-school'>중학교 졸업</option>
 										<option value='high-school'>고등학교 졸업</option>
 										<option value='college'>대학교 졸업</option>
 									</select>
-									<span className='err'></span>
+									<span className='err'>{Err.edu}</span>
 								</td>
 							</tr>
 
@@ -213,8 +284,10 @@ function Members() {
 										id='comments'
 										cols='30'
 										rows='3'
+										value={Val.comments}
+										onChange={handleChange}
 										placeholder='남기는말을 입력하세요'></textarea>
-									<span className='err'></span>
+									<span className='err'>{Err.comments}</span>
 								</td>
 							</tr>
 
