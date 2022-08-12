@@ -17,6 +17,30 @@ function Members() {
 
 	const [Val, setVal] = useState(initVal);
 
+	// 인증조건 실패 시 출력될 에러메시지가 항목별로 담길 state추가
+	const [Err, setErr] = useState({});
+
+	//인증처리 함수
+	const check = (value) => {
+		const errs = {};
+
+		if (value.userid.length < 5) {
+			errs.userid = '아이디를 5글자 이상 입력하세요.';
+		}
+		return errs;
+	};
+
+	//submit이벤트 발생시 실행할 함수
+	const handleSubmit = (e) => {
+		//일단은 이벤트의 기본기능을 막아서 서버전송 방지
+		e.preventDefault();
+
+		//check함수에 인수로 Val값을 넣어서 인증검사후
+		//반환된 에러객체값을 Err 스테이트에 옮겨담음
+		setErr(check(Val));
+	};
+
+	// 현재 입력되고 있는 input요소의 name, value값을 비구조화할당으로 받아서 객체에 []를 이용해 키값으로 활용
 	const handleChange = (e) => {
 		const { name, value } = e.target; // e.target.name , e.target.value
 
@@ -29,7 +53,7 @@ function Members() {
 
 	return (
 		<Layout name={'Members'}>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<fieldset>
 					<legend>회원가입 폼 양식</legend>
 					<table>
@@ -48,7 +72,7 @@ function Members() {
 										value={Val.userid}
 										onChange={handleChange}
 									/>
-									<span className='err'></span>
+									<span className='err'>{Err.userid}</span>
 								</td>
 							</tr>
 
