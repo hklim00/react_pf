@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 function Members() {
+	const history = useHistory();
+
 	// 입력값 담을 초기 객체 생성
 	const initVal = {
 		userid: '',
 		pwd1: '',
-		pewd2: '',
+		pwd2: '',
 		email: '',
 		gender: null,
 		interests: null,
@@ -19,6 +21,8 @@ function Members() {
 
 	// 인증조건 실패 시 출력될 에러메시지가 항목별로 담길 state추가
 	const [Err, setErr] = useState({});
+
+	const [Submit, setSubmit] = useState(false);
 
 	//인증처리 함수
 	const check = (value) => {
@@ -125,6 +129,19 @@ function Members() {
 		setVal({ ...Val, [name]: value });
 	};
 
+	useEffect(() => {
+		//전송 클릭시 에러메세지를 가지고 값이 Err스테이트 객체에 하나도 없으면 인증통과
+
+		//Objec.keys(확인할 객체) : 특정 객체의 키값을 배열로 반환해주는 객체전용 내장함수
+		const len = Object.keys(Err).length;
+
+		//에러메세지가 하나도 없고 Submit버튼을 클릭시 두개 조건을 모두 만족해야지 인증성공처리
+		if (len === 0 && Submit) {
+			alert('회원가입이 완료되었습니다. 메인페이지로 이동합니다.');
+			history.push('/');
+		}
+	}, [Err]);
+
 	return (
 		<Layout name={'Members'}>
 			<form onSubmit={handleSubmit}>
@@ -179,6 +196,7 @@ function Members() {
 										id='pwd2'
 										value={Val.pwd2}
 										placeholder='비밀번호를 재입력하세요'
+										onChange={handleChange}
 									/>
 									<span className='err'>{Err.pwd2}</span>
 								</td>
@@ -295,7 +313,11 @@ function Members() {
 							<tr>
 								<th colSpan='2'>
 									<input type='reset' value='cancel' />
-									<input type='submit' value='submit' />
+									<input
+										type='submit'
+										value='submit'
+										onClick={() => setSubmit(true)}
+									/>
 								</th>
 							</tr>
 						</tbody>
