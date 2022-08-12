@@ -17,6 +17,16 @@ function Members() {
 
 	const [Val, setVal] = useState(initVal);
 
+	const handleChange = (e) => {
+		const { name, value } = e.target; // e.target.name , e.target.value
+
+		// es5 객체에서 키값을 변수로 지정할 수 없음
+		// setVal({...Val,'userid':value});
+
+		// es6 객체에서 키값을 변수로 치환하고자 할때 키에 들어갈 변수를 대괄호로 감싸줌
+		setVal({ ...Val, [name]: value }); // { ...Val, userid: e.target.value }
+	};
+
 	return (
 		<Layout name={'Members'}>
 			<form>
@@ -36,11 +46,7 @@ function Members() {
 										name='userid'
 										id='userid'
 										value={Val.userid}
-										onChange={(e) => {
-											console.log(e.target.value);
-											// onchange 이벤트가 발생할때마다 기존의 Val 스테이트값을 복사해서 현재 입력하고 있는 값으로 업데이트
-											setVal({ ...Val, userid: e.target.value });
-										}}
+										onChange={handleChange}
 									/>
 									<span className='err'></span>
 								</td>
