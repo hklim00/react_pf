@@ -1,11 +1,13 @@
 import Layout from '../common/Layout';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 function Community() {
 	const input = useRef(null);
 	const textarea = useRef(null);
-
+	const inputEdit = useRef(null);
+	const textareaEdit = useRef(null);
 	const [Posts, setPosts] = useState([]);
+	const [Allowed, setAllowed] = useState(true);
 
 	const resetForm = () => {
 		input.current.value = '';
@@ -32,6 +34,54 @@ function Community() {
 		setPosts(newPosts);
 	};
 
+	const updatePost = (index) => {
+		if (!inputEdit.current.value.trim() || !textareaEdit.current.value.trim()) {
+			resetForm();
+			return alert('수정할 제목과 본문을 모두 입력하세요.');
+		}
+
+		setPosts(
+			Posts.map((post, idx) => {
+				if (idx === index) {
+					post.title = inputEdit.current.value;
+					post.content = textareaEdit.current.value;
+					post.enableUpdate = false;
+				}
+				return post;
+			})
+		);
+		setAllowed(true);
+	};
+
+	const enableUpdate = (index) => {
+		if (!Allowed) return;
+		setAllowed(false);
+		setPosts(
+			Posts.map((post, idx) => {
+				if (idx === index) post.enableUpdate = true;
+				return post;
+			})
+		);
+	};
+
+	const disableUpdate = (index) => {
+		setAllowed(true);
+		setPosts(
+			Posts.map((post, idx) => {
+				if (idx === index) post.enableUpdate = false;
+				return post;
+			})
+		);
+	};
+
+	useEffect(() => {
+		console.log(Posts);
+	}, [Posts]);
+
+	useEffect(() => {
+		console.log(Allowed);
+	}, [Allowed]);
+
 	return (
 		<Layout name={'Community'}>
 			<div className='inputBox'>
@@ -45,19 +95,50 @@ function Community() {
 					placeholder='제목을 입력하세요'
 					ref={textarea}></textarea>
 				<br />
-				<button onClick={resetForm}>CANCEL</button>
-				<button onClick={createPost}>WRITE</button>
+				<div className='btnSet'>
+					<button onClick={resetForm}>CANCEL</button>
+					<button onClick={createPost}>WRITE</button>
+				</div>
 			</div>
-			<div className='showBox' style={{ height: 200 }}>
-				{Posts.map((val, idx) => {
+			<div className='showBox'>
+				{Posts.map((post, idx) => {
 					return (
 						<article key={idx}>
-							<h2>{val.title}</h2>
-							<p>{val.content}</p>
-							<div className='btnSet'>
-								<button>EDIT</button>
-								<button onClick={() => deletePost(idx)}>DELETE</button>
-							</div>
+							{post.enableUpdate ? (
+								<>
+									<div className='editTxt'>
+										<input
+											type='text'
+											defaultValue={post.title}
+											ref={inputEdit}
+										/>
+										<br />
+										<textarea
+											name=''
+											id=''
+											cols='30'
+											rows='3'
+											ref={textareaEdit}
+											defaultValue={post.content}></textarea>
+										<br />
+									</div>
+									<div className='btnSet'>
+										<button onClick={() => disableUpdate(idx)}>CANCEL</button>
+										<button onClick={() => updatePost(idx)}>UPDATE</button>
+									</div>
+								</>
+							) : (
+								<>
+									<div className='txt'>
+										<h2>{post.title}</h2>
+										<p>{post.content}</p>
+									</div>
+									<div className='btnSet'>
+										<button onClick={() => enableUpdate(idx)}>EDIT</button>
+										<button onClick={() => deletePost(idx)}>DELETE</button>
+									</div>
+								</>
+							)}
 						</article>
 					);
 				})}
