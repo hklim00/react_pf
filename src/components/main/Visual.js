@@ -21,17 +21,10 @@ function Visual() {
 			<button
 				style={btnStyle}
 				onClick={() => {
-					new Anime(box.current, {
-						prop: 'left',
-						value: 1000,
+					new Anime(window, {
+						prop: 'scroll',
+						value: 600,
 						duration: 500,
-						callback: () => {
-							new Anime(box.current, {
-								prop: 'left',
-								value: 0,
-								duration: 500,
-							});
-						},
 					});
 				}}>
 				start
