@@ -59,6 +59,22 @@
 
     createDOM()
 
+    Promise.all([loadImg(), loadVid()]).then(result => {
+      console.log(result); //[true, true]
+      const [loadedImg, loadedVid] = result;
+
+      //두함수의 반환값이 모두 true이면 (영상, 이미지가 모두 로딩완료되면)
+      if (loadedImg && loadedVid) {
+        console.log('mask-hide');
+        mask.classList.add('off');
+
+        setTimeout(() => {
+          mask.remove();
+          defaults.remove();
+        }, 2000)
+      }
+    })
+
     function createDOM() {
       imgs.forEach((src) => {
         tags += `<img src=${src}/>`
@@ -69,6 +85,37 @@
       defaults.innerHTML = tags
     }
 
+    function loadImg() {
+      return new Promise((res, rej) => {
+        let countImg = 0;
+        const imgDOM = defaults.querySelectorAll('img');
+        imgDOM.forEach(img => {
+          img.onload = () => {
+            countImg++;
+            console.log('img loaded..', countImg);
+            if (countImg === lenImg) {
+              res(true);
+            }
+          }
+        })
+      })
+    }
+
+    function loadVid() {
+      return new Promise((res, rej) => {
+        let countVid = 0;
+        const vidDOM = defaults.querySelectorAll('video');
+        vidDOM.forEach(vid => {
+          vid.onloadeddata = () => {
+            countVid++;
+            console.log('video loaded..', countVid);
+            if (countVid === lenVid) {
+              res(true);
+            }
+          }
+        })
+      })
+    }
   </script>
 </body>
 
