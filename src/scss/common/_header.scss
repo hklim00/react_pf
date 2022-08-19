@@ -22,7 +22,7 @@ header {
 			text-indent: 2px;
 		}
 	}
-	nav {
+	nav#webGnb {
 		width: 65%;
 		display: flex;
 		justify-content: space-between;
@@ -91,6 +91,7 @@ header {
 		top: 50%;
 		transform: translateY(-50%);
 		display: none;
+		cursor: pointer;
 	}
 }
 
@@ -104,7 +105,7 @@ header.main {
 			color: #fff;
 		}
 	}
-	nav {
+	nav#webGnb {
 		#gnb {
 			a {
 				color: #fff;
@@ -131,7 +132,7 @@ header.main {
 
 @media screen and (max-width: $web_s) {
 	header {
-		nav {
+		nav#webGnb {
 			width: 75%;
 		}
 	}
@@ -140,7 +141,7 @@ header.main {
 @media screen and (max-width: $tablet) {
 	header {
 		height: 150px;
-		nav {
+		nav#webGnb {
 			width: 25%;
 			#gnb {
 				display: none;
@@ -155,7 +156,7 @@ header.main {
 @media screen and (max-width: $mobile) {
 	header {
 		height: 100px;
-		nav {
+		nav#webGnb {
 			display: none;
 		}
 	}

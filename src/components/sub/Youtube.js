@@ -7,19 +7,23 @@ import Pop from '../common/Pop';
 
 function Youtube() {
 	const line = useRef(null);
+	const pop = useRef(null);
 	const [Vids, setVids] = useState([]);
-	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
 
-	useEffect(() => {
+	const getYoutube = async () => {
 		const key = 'AIzaSyBDL1S8asY8CR73ihG02orQB3BdWha5F1A';
 		const playlistId = 'PL_RxE5V-zXWLz8bPJ5xi6dsdqg2mnwgPr';
 		const num = 6;
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlistId}&maxResults=${num}`;
 
-		axios.get(url).then((json) => {
+		await axios.get(url).then((json) => {
 			setVids(json.data.items);
 		});
+	};
+
+	useEffect(() => {
+		getYoutube();
 	}, []);
 
 	useEffect(() => {
@@ -46,7 +50,7 @@ function Youtube() {
 									icon={faYoutube}
 									ref={line}
 									onClick={() => {
-										setOpen(true);
+										pop.current.open();
 										setIndex(idx);
 									}}
 								/>
@@ -55,14 +59,14 @@ function Youtube() {
 					);
 				})}
 			</Layout>
-			{Open && (
-				<Pop setOpen={setOpen}>
+			<Pop ref={pop}>
+				{Vids.length !== 0 && (
 					<iframe
 						title='video'
 						src={`https://www.youtube.com/embed/${Vids[Index].snippet.resourceId.videoId}`}
 						frameBorder='0'></iframe>
-				</Pop>
-			)}
+				)}
+			</Pop>
 		</>
 	);
 }

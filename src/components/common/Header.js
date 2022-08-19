@@ -1,5 +1,5 @@
+import { useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faTwitter,
@@ -8,7 +8,10 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
+import Menu from './Menu';
+
 function Header({ type }) {
+	const menu = useRef(null);
 	const active = { color: '#000' };
 	let logoURL = '';
 	type === 'main'
@@ -23,7 +26,7 @@ function Header({ type }) {
 				</Link>
 				<span>Lorem ipsum dolor sit amet.</span>
 			</h1>
-			<nav>
+			<nav id='webGnb'>
 				<ul id='gnb'>
 					<li>
 						<NavLink to='/department' activeStyle={active}>
@@ -68,7 +71,8 @@ function Header({ type }) {
 					</li>
 				</ul>
 			</nav>
-			<FontAwesomeIcon icon={faBars} />
+			<FontAwesomeIcon icon={faBars} onClick={() => menu.current.toggle()} />
+			<Menu ref={menu} />
 		</header>
 	);
 }
