@@ -26,7 +26,6 @@ function Vids() {
 					slidesPerView={3}
 					navigation={{ clickable: true }}
 					pagination={{ clickable: true }}
-					// scrollbar={{ draggable: true }}
 					centeredSlides={true}
 					onSlideChange={() => console.log('slide change')}
 					onSwiper={(swiper) => console.log(swiper)}>

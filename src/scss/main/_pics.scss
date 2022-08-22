@@ -26,4 +26,10 @@
 		right: 15vw;
 		background: hotpink;
 	}
+	ul {
+		position: relative;
+		z-index: 3;
+		display: flex;
+		justify-content: space-between;
+	}
 }

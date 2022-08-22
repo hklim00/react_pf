@@ -59,12 +59,27 @@ function Gallery() {
 		setEnableClick(false);
 	};
 
+	// 데이터 로딩 완료 후 로딩바 제거 frame 호출
+	const endLoading = () => {
+		setTimeout(() => {
+			frame.current.classList.add('on');
+			setLoading(false);
+			setTimeout(() => {
+				setEnableClick(true);
+			}, 600);
+		}, 1000);
+	};
+
 	useEffect(() => {
 		dispatch({
 			type: 'FLICKR_START',
 			Opt,
 		});
 	}, [Opt]);
+
+	useEffect(() => {
+		endLoading();
+	}, [Pics]);
 
 	return (
 		<>
