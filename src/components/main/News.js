@@ -2,6 +2,9 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
 function News() {
+	const path = process.env.PUBLIC_URL;
+	const Members = useSelector((store) => store.memberReducer.members);
+
 	const getLocalData = () => {
 		const dummyPosts = [
 			{ title: 'Hello5', content: 'Here comes description in detail.' },
@@ -18,8 +21,6 @@ function News() {
 		}
 	};
 	const [Posts, setPosts] = useState(getLocalData());
-
-	const Members = useSelector((store) => store.memberReducer.members);
 
 	useEffect(() => {
 		localStorage.setItem('post', JSON.stringify(Posts));
@@ -38,16 +39,16 @@ function News() {
 					</article>
 				);
 			})}
-			<div>
-				{Members.map((member, idx) => {
+			<ul>
+				{Members.map((member) => {
 					return (
-						<span key={idx}>
-							<h2>{member.name}</h2>
+						<li key={member.name}>
+							<img src={`${path}/img/${member.pic}`} alt={member.name} />
 							<p>{member.position}</p>
-						</span>
+						</li>
 					);
 				})}
-			</div>
+			</ul>
 		</section>
 	);
 }

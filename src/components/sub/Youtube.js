@@ -1,34 +1,14 @@
 import Layout from '../common/Layout';
-import axios from 'axios';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import Pop from '../common/Pop';
 
 function Youtube() {
-	const line = useRef(null);
 	const pop = useRef(null);
-	const [Vids, setVids] = useState([]);
 	const [Index, setIndex] = useState(0);
-
-	const getYoutube = async () => {
-		const key = 'AIzaSyBDL1S8asY8CR73ihG02orQB3BdWha5F1A';
-		const playlistId = 'PL_RxE5V-zXWLz8bPJ5xi6dsdqg2mnwgPr';
-		const num = 6;
-		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlistId}&maxResults=${num}`;
-
-		await axios.get(url).then((json) => {
-			setVids(json.data.items);
-		});
-	};
-
-	useEffect(() => {
-		getYoutube();
-	}, []);
-
-	useEffect(() => {
-		console.log(line);
-	}, [Vids]);
+	const Vids = useSelector((store) => store.youtubeReducer.youtube);
 
 	return (
 		<>
@@ -48,7 +28,6 @@ function Youtube() {
 								<img src={vid.snippet.thumbnails.high.url} alt='' />
 								<FontAwesomeIcon
 									icon={faYoutube}
-									ref={line}
 									onClick={() => {
 										pop.current.open();
 										setIndex(idx);

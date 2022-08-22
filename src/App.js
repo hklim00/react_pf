@@ -1,4 +1,8 @@
 import { Route, Switch } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { setYoutube, setMembers } from './redux/action';
 
 // common
 import Header from './components/common/Header';
@@ -18,6 +22,31 @@ import Members from './components/sub/Members';
 import './scss/style.scss';
 
 function App() {
+	const dispatch = useDispatch();
+
+	const getMembers = async () => {
+		const url = process.env.PUBLIC_URL + '/DB/members.json';
+		await axios.get(url).then((json) => {
+			dispatch(setMembers(json.data.members));
+		});
+	};
+
+	const getYoutube = async () => {
+		const key = 'AIzaSyBDL1S8asY8CR73ihG02orQB3BdWha5F1A';
+		const playlistId = 'PL_RxE5V-zXWLz8bPJ5xi6dsdqg2mnwgPr';
+		const num = 6;
+		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlistId}&maxResults=${num}`;
+
+		await axios.get(url).then((json) => {
+			dispatch(setYoutube(json.data.items));
+		});
+	};
+
+	useEffect(() => {
+		getYoutube();
+		getMembers();
+	}, []);
+
 	return (
 		<>
 			{/* 중복되는 라우터명이 있을때 처음 연결된 라우터 하나만 연결 */}

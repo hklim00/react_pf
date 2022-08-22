@@ -1,23 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setMembers } from '../../redux/action';
+import { useSelector } from 'react-redux';
 import Layout from '../common/Layout';
 
 function Department() {
-	const dispatch = useDispatch();
 	const path = process.env.PUBLIC_URL;
 	const Members = useSelector((store) => store.memberReducer.members);
 
 	return (
 		<Layout name={'Department'}>
-			<button
-				onClick={() => {
-					const newMembers = [...Members];
-					newMembers[0].name = 'helen';
-					dispatch(setMembers(newMembers));
-				}}>
-				Member Change
-			</button>
-			<br />
 			{Members.map((member, idx) => (
 				<article key={idx}>
 					<div className='inner'>
