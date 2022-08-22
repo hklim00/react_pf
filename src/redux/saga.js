@@ -3,8 +3,12 @@ import { getFlickr, getYoutube, getMembers } from './api';
 
 // flickr
 export function* returnFlickr(action) {
-	const response = yield call(getFlickr, action.Opt);
-	yield put({ type: 'FLICKR_SUCCESS', payload: response.data.photos.photo });
+	try {
+		const response = yield call(getFlickr, action.Opt);
+		yield put({ type: 'FLICKR_SUCCESS', payload: response.data.photos.photo });
+	} catch (err) {
+		yield put({ type: 'FLICKR_ERROR', payload: err });
+	}
 }
 
 export function* callFlickr() {
@@ -13,8 +17,12 @@ export function* callFlickr() {
 
 // youtube
 export function* returnYoutube() {
-	const response = yield call(getYoutube);
-	yield put({ type: 'YOUTUBE_SUCCESS', payload: response.data.items });
+	try {
+		const response = yield call(getYoutube);
+		yield put({ type: 'YOUTUBE_SUCCESS', payload: response.data.items });
+	} catch (err) {
+		yield put({ type: 'YOUTUBE_ERROR', payload: err });
+	}
 }
 
 export function* callYoutube() {
@@ -23,8 +31,12 @@ export function* callYoutube() {
 
 // members
 export function* returnMembers() {
-	const response = yield call(getMembers);
-	yield put({ type: 'MEMBERS_SUCCESS', payload: response.data.members });
+	try {
+		const response = yield call(getMembers);
+		yield put({ type: 'MEMBERS_SUCCESS', payload: response.data.members });
+	} catch (err) {
+		yield put({ type: 'MEMBERS_ERROR', payload: err });
+	}
 }
 
 export function* callMembers() {
