@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import Pop from '../common/Pop';
 import Masonry from 'react-masonry-component';
 import { useSelector, useDispatch } from 'react-redux';
+import * as types from '../../redux/actionType';
 
 function Gallery() {
 	const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function Gallery() {
 
 	useEffect(() => {
 		dispatch({
-			type: 'FLICKR_START',
+			type: types.FLICKR.start,
 			Opt,
 		});
 	}, [Opt]);

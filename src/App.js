@@ -1,8 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
-import { setYoutube, setMembers } from './redux/action';
+import * as types from './redux/actionType';
 
 // common
 import Header from './components/common/Header';
@@ -26,13 +25,13 @@ function App() {
 
 	useEffect(() => {
 		dispatch({
-			type: 'YOUTUBE_START',
+			type: types.YOUTUBE.start,
 		});
 		dispatch({
-			type: 'MEMBERS_START',
+			type: types.MEMBERS.start,
 		});
 		dispatch({
-			type: 'FLICKR_START',
+			type: types.FLICKR.start,
 			Opt: {
 				type: 'user',
 				user: '196144884@N05',
