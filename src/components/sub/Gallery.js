@@ -4,14 +4,14 @@ import { useEffect, useState, useRef } from 'react';
 import Pop from '../common/Pop';
 import Masonry from 'react-masonry-component';
 import { useSelector, useDispatch } from 'react-redux';
-import * as types from '../../redux/actionType';
+import { fetchFlickr } from '../../redux/flickrSlice';
 
 function Gallery() {
 	const dispatch = useDispatch();
 	const frame = useRef(null);
 	const input = useRef(null);
 	const pop = useRef(null);
-	const Pics = useSelector((store) => store.flickrReducer.flickr);
+	const Pics = useSelector((store) => store.flickr.data);
 
 	const [Index, setIndex] = useState(0);
 	const [Loading, setLoading] = useState(true);
@@ -72,10 +72,7 @@ function Gallery() {
 	};
 
 	useEffect(() => {
-		dispatch({
-			type: types.FLICKR.start,
-			Opt,
-		});
+		dispatch(fetchFlickr(Opt));
 	}, [Opt]);
 
 	useEffect(() => {
